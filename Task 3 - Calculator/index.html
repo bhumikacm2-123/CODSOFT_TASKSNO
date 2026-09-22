@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calculator {
+            width: 350px;
+            padding: 25px;
+            background: #1e1e2f;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        #display {
+            width: 100%;
+            height: 75px;
+            margin-bottom: 20px;
+            padding: 15px;
+
+            border: none;
+            border-radius: 12px;
+
+            background: white;
+            color: #222;
+
+            font-size: 32px;
+            text-align: right;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            height: 60px;
+
+            border: none;
+            border-radius: 12px;
+
+            background: #3a3a50;
+            color: white;
+
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #50506a;
+        }
+
+        .operator {
+            background: orange;
+        }
+
+        .clear {
+            background: #e74c3c;
+        }
+
+        .equal {
+            background: #2ecc71;
+            grid-column: span 2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+
+        <input type="text" id="display" value="0" readonly>
+
+        <div class="buttons">
+
+            <button class="clear" data-value="C">C</button>
+            <button data-value="DEL">DEL</button>
+            <button class="operator" data-value="/">÷</button>
+            <button class="operator" data-value="*">×</button>
+
+            <button data-value="7">7</button>
+            <button data-value="8">8</button>
+            <button data-value="9">9</button>
+            <button class="operator" data-value="-">−</button>
+
+            <button data-value="4">4</button>
+            <button data-value="5">5</button>
+            <button data-value="6">6</button>
+            <button class="operator" data-value="+">+</button>
+
+            <button data-value="1">1</button>
+            <button data-value="2">2</button>
+            <button data-value="3">3</button>
+            <button data-value=".">.</button>
+
+            <button data-value="0">0</button>
+            <button data-value="00">00</button>
+            <button class="equal" data-value="=">=</button>
+
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById("display");
+        const buttons = document.querySelectorAll("button");
+
+        let expression = "";
+
+        buttons.forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                const value = button.getAttribute("data-value");
+
+                if (value === "C") {
+                    expression = "";
+                    display.value = "0";
+                }
+
+                else if (value === "DEL") {
+                    expression = expression.slice(0, -1);
+
+                    if (expression === "") {
+                        display.value = "0";
+                    } else {
+                        display.value = expression;
+                    }
+                }
+
+                else if (value === "=") {
+
+                    try {
+                        if (expression === "") {
+                            display.value = "0";
+                        } else {
+                            display.value = eval(expression);
+                            expression = display.value.toString();
+                        }
+                    }
+
+                    catch {
+                        display.value = "Error";
+                        expression = "";
+                    }
+                }
+
+                else {
+                    expression += value;
+                    display.value = expression;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
